@@ -22,8 +22,7 @@ if 'id' in df.columns:
     df.drop(columns=['id'], inplace=True)
 
 # 3. Handle specific categorical encoding to ensure 16 features
-# We want to drop 'age_group' and 'bmi_category' COMPLETELY from features
-# But we must keep: gender, work_type, smoking_status, Residence_type, ever_married
+# --- One-hot encoding ---
 categorical_cols = ['gender', 'work_type', 'smoking_status', 'Residence_type', 'ever_married']
 existing_cat_cols = [col for col in categorical_cols if col in df.columns]
 
@@ -41,12 +40,16 @@ feature_names = X.columns.tolist()
 print(f"Number of features: {len(feature_names)}")
 print(f"Features: {feature_names}")
 
+print("\n--- Final dataset creation (First 5 rows of X) ---")
+print(X.head())
+
 # 5. Train-Test Split
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
 # 6. Apply Feature Scaling
+# --- Scaling ---
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
@@ -58,7 +61,9 @@ class_weights_dict = dict(zip(classes, weights))
 print(f"Computed class weights: {class_weights_dict}")
 
 # 8. Save data for Model Building phase
-os.makedirs('processed_data', exist_ok=True)
+output_dir = os.path.join('preprocessing', 'processed_data')
+os.makedirs(output_dir, exist_ok=True)
+
 data_to_save = {
     'X_train': X_train_scaled,
     'X_test': X_test_scaled,
@@ -68,11 +73,11 @@ data_to_save = {
     'feature_names': feature_names
 }
 
-with open('processed_data/preprocessed_data.pkl', 'wb') as f:
+with open(os.path.join(output_dir, 'preprocessed_data.pkl'), 'wb') as f:
     pickle.dump(data_to_save, f)
 
-# Also save the fitted scaler separately so predict_stroke.py can load it
-joblib.dump(scaler, 'processed_data/scaler.pkl')
-print("✅ Scaler saved to 'processed_data/scaler.pkl'")
+# Also save the fitted scaler separately
+joblib.dump(scaler, os.path.join(output_dir, 'scaler.pkl'))
+print(f"✅ Scaler saved to '{os.path.join(output_dir, 'scaler.pkl')}'")
 
-print("\n✅ Data preparation complete and saved to 'processed_data/preprocessed_data.pkl'")
+print(f"\n✅ Data preparation complete and saved to '{os.path.join(output_dir, 'preprocessed_data.pkl')}'")
