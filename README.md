@@ -117,9 +117,9 @@ flowchart TD
 | 5 | Evaluate | Confusion matrix + classification report on test set |
 | 6 | Save model | `stroke_nn_model.h5` |
 
-![Training Curves](training_curves.png)
+![Training Curves](model_training/training_curves.png)
 
-![Confusion Matrix](confusion_matrix.png)
+![Confusion Matrix](reports/design/confusion_matrix.png)
 
 ---
 
@@ -138,7 +138,7 @@ flowchart TD
 
 > **Conclusion:** Consistent results across all 5 folds confirm the model is **stable** and **generalizes well** — it learned real patterns, not noise.
 
-![Cross Validation ROC Curve](cv_roc_curve.png)
+![Cross Validation ROC Curve](results/plots/cv_roc_curve.png)
 
 ---
 
@@ -172,7 +172,7 @@ flowchart TD
 
 > **Note:** The test set contained 62 real stroke cases. At the default 0.5 threshold, 30 would be missed. At 0.3, only 20 are missed.
 
-![Threshold Tradeoff — Recall vs Precision](threshold_tradeoff.png)
+![Threshold Tradeoff — Recall vs Precision](results/plots/threshold_tradeoff.png)
 
 ---
 
@@ -200,9 +200,9 @@ Two techniques used:
 
 > **Conclusion:** The model's feature importance ranking **perfectly mirrors established clinical science** — it learned without any hardcoded rules.
 
-![Permutation Importance](permutation_importance.png)
+![Permutation Importance](results/plots/permutation_importance.png)
 
-![SHAP Summary](shap_summary.png)
+![SHAP Summary](model_evaluation/shap_summary.png)
 
 ---
 
@@ -222,7 +222,7 @@ Two techniques used:
 
 The ROC curve bends sharply toward the top-left (high TPR, low FPR), proving the model achieves strong sensitivity before generating unacceptable false alarms.
 
-![ROC Curve — AUC = 0.82](roc_curve.png)
+![ROC Curve — AUC = 0.82](results/plots/roc_curve.png)
 
 ---
 
