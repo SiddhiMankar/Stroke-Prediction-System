@@ -77,7 +77,7 @@ flowchart TD
 
     subgraph PHASE67["🚀 PHASE 6 & 7 — Risk System & Prediction Tool"]
         AB["Phase 6: Map probability → Risk Label\n< 0.30 → 🟢 Low\n0.30–0.60 → 🟡 Moderate\n> 0.60 → 🔴 High"] --> AC
-        AC["Phase 7: predict_stroke.py\nInteractive CLI tool\nLoad model + scaler → collect patient inputs\n→ preprocess → predict → display risk"]
+        AC["Phase 7: Prediction Interface\nWeb UI (React + FastAPI)\nor CLI (predict_stroke.py)\nCollect inputs → preprocess → predict → display"]
     end
 
     AC --> AD["🏁 End-to-End Stroke Screening System\nFrom raw data → Live clinical risk assessment"]
@@ -176,13 +176,16 @@ flowchart TD
 
 ---
 
-### 🔹 Phase 4: Feature Importance — `feature_importance.py`
+### 🔹 Phase 4: Feature Importance & Explainability — `feature_importance.py`
 
-**Goal:** Confirm the model is learning medically valid patterns (explainability).
+**Goal:** Confirm the model is learning medically valid patterns and provide live explanations for predictions.
 
 Two techniques used:
-1. **Permutation Importance** — measures drop in recall when a feature is randomly shuffled
-2. **SHAP (SHapley Additive exPlanations)** — game-theory-based contribution per prediction
+1. **Permutation Importance** — measures drop in recall when a feature is randomly shuffled.
+2. **SHAP (SHapley Additive exPlanations)** — game-theory-based contribution per prediction.
+
+> [!NOTE]
+> **Production Explainability:** SHAP values are not just used for evaluation; they are integrated into the live API to provide "Feature Contributions" for every single patient prediction.
 
 **Top Features Ranked:**
 
@@ -238,9 +241,45 @@ This is a critical step for **clinical interpretability** — making the AI acce
 
 ---
 
-### 🔹 Phase 7: Interactive Prediction Tool — `predict_stroke.py`
+### 🔹 Phase 7: Interactive Prediction Tools
 
-**Goal:** Package everything into a live, user-facing screening tool.
+**Goal:** Package everything into a live, user-facing screening tool with real-time explainability.
+
+#### Option A: Web UI Dashboard (Recommended)
+A modern, glassmorphic React frontend connected to a FastAPI backend. This is the primary interface for clinical risk assessment.
+
+**Key Features:**
+*   **Integrated Clinical Form**: User-friendly input for all 10 clinical parameters required for inference.
+*   **Real-Time Inference**: Instant probability calculation as soon as the form is submitted.
+*   **Visual Risk Gauge**: Uses `recharts` to provide a clear, color-coded risk assessment.
+*   **Live Explainability (XAI)**: Displays the top 5 most influential features for each specific prediction using **SHAP contributions**.
+*   **Premium Aesthetic**: Glassmorphic design system for a clean, modern medical interface.
+
+**To run the Backend (FastAPI):**
+```bash
+# From the stroke-disease-prediction directory
+# Activate the virtual environment
+..\..\venv_ml\Scripts\activate
+
+# Install requirements (if not done)
+pip install -r requirements.txt
+
+# Run the API
+python -m uvicorn inference.api:app --reload
+```
+The API will start at `http://localhost:8000/`.
+
+**To run the Frontend (React + Vite):**
+```bash
+# Open a new terminal
+cd prediction-ui
+npm install
+npm run dev
+```
+The Prediction UI will be accessible at `http://localhost:5174/`.
+
+#### Option B: CLI Tool (`predict_stroke.py`)
+A fast, terminal-based interactive tool.
 
 **Pipeline:**
 1. Load `stroke_final_model.h5` + `scaler.pkl`
@@ -328,6 +367,7 @@ Progressive compression mimics how information is distilled: broad initial recog
 | `roc_analysis.py` | Phase 5 | AUC-ROC curve and scoring |
 | `risk_categorization.py` | Phase 6 | Probability → Risk label mapping |
 | `predict_stroke.py` | Phase 7 | Interactive live prediction CLI tool |
+| `api.py` & `prediction-ui/` | Phase 7 | FastAPI Backend & React Web Dashboard |
 | `processed_data/stroke_final_model.h5` | — | Saved final trained Keras model |
 | `processed_data/scaler.pkl` | — | Fitted StandardScaler for inference |
 
