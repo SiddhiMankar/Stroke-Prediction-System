@@ -87,7 +87,7 @@ flowchart TD
 
 ## Step-by-Step Breakdown
 
-### 🔹 Pre-Phase: Data Preparation — `data_preparation.py`
+### 🔹 Pre-Phase: Data Preparation — `data_processing/data_preparation.py`
 
 **Goal:** Convert raw data into clean, model-ready arrays.
 
@@ -104,7 +104,7 @@ flowchart TD
 
 ---
 
-### 🔹 Model Building — `model_building.py`
+### 🔹 Model Building — `reports/design/model_building.py`
 
 **Goal:** Build, train, and evaluate the initial MLP model.
 
@@ -123,7 +123,7 @@ flowchart TD
 
 ---
 
-### 🔹 Phase 1: Model Reliability — `cross_validation.py`
+### 🔹 Phase 1: Model Reliability — `model_training/cross_validation.py`
 
 **Goal:** Verify the model doesn't just get lucky on one train-test split.
 
@@ -142,7 +142,7 @@ flowchart TD
 
 ---
 
-### 🔹 Phase 2: Hyperparameter Tuning — `hyperparameter_tuning.py`
+### 🔹 Phase 2: Hyperparameter Tuning — `reports/design/hyperparameter_tuning.py`
 
 **Goal:** Scientifically determine the best MLP architecture.
 
@@ -157,7 +157,7 @@ flowchart TD
 
 ---
 
-### 🔹 Phase 3: Threshold Optimization — `threshold_optimization.py`
+### 🔹 Phase 3: Threshold Optimization — `model_training/threshold_optimization.py`
 
 **Goal:** Move beyond the default 0.5 threshold to maximize clinical value.
 
@@ -176,7 +176,7 @@ flowchart TD
 
 ---
 
-### 🔹 Phase 4: Feature Importance & Explainability — `feature_importance.py`
+### 🔹 Phase 4: Feature Importance & Explainability — `model_evaluation/feature_importance.py`
 
 **Goal:** Confirm the model is learning medically valid patterns and provide live explanations for predictions.
 
@@ -206,7 +206,7 @@ Two techniques used:
 
 ---
 
-### 🔹 Phase 5: ROC Analysis — `roc_analysis.py`
+### 🔹 Phase 5: ROC Analysis — `model_evaluation/roc_analysis.py`
 
 **Goal:** A single mathematical score summarizing overall model quality.
 
@@ -226,7 +226,7 @@ The ROC curve bends sharply toward the top-left (high TPR, low FPR), proving the
 
 ---
 
-### 🔹 Phase 6: Risk Level Categorization — `risk_categorization.py`
+### 🔹 Phase 6: Risk Level Categorization — `data_processing/risk_categorization.py`
 
 **Goal:** Convert a raw probability (e.g., `0.63`) into a human-readable label.
 
@@ -382,16 +382,16 @@ Progressive compression mimics how information is distilled: broad initial recog
 
 | File | Phase | Purpose |
 |------|-------|---------|
-| `data_preparation.py` | Pre-phase | Data cleaning, encoding, scaling, splitting |
-| `model_building.py` | Pre-phase | MLP training, evaluation, save model |
-| `cross_validation.py` | Phase 1 | Stratified k-fold reliability check |
-| `hyperparameter_tuning.py` | Phase 2 | Architecture search and selection |
-| `threshold_optimization.py` | Phase 3 | Optimal threshold for clinical safety |
-| `feature_importance.py` | Phase 4 | Permutation importance + SHAP explainability |
-| `roc_analysis.py` | Phase 5 | AUC-ROC curve and scoring |
-| `risk_categorization.py` | Phase 6 | Probability → Risk label mapping |
-| `predict_stroke.py` | Phase 7 | Interactive live prediction CLI tool |
-| `api.py` & `prediction-ui/` | Phase 7 | FastAPI Backend & React Web Dashboard |
+| `data_processing/data_preparation.py` | Pre-phase | Data cleaning, encoding, scaling, splitting |
+| `reports/design/model_building.py` | Pre-phase | MLP training, evaluation, save model |
+| `model_training/cross_validation.py` | Phase 1 | Stratified k-fold reliability check |
+| `reports/design/hyperparameter_tuning.py` | Phase 2 | Architecture search and selection |
+| `model_training/threshold_optimization.py` | Phase 3 | Optimal threshold for clinical safety |
+| `model_evaluation/feature_importance.py` | Phase 4 | Permutation importance + SHAP explainability |
+| `model_evaluation/roc_analysis.py` | Phase 5 | AUC-ROC curve and scoring |
+| `data_processing/risk_categorization.py` | Phase 6 | Probability → Risk label mapping |
+| `inference/predict_stroke.py` | Phase 7 | Interactive live prediction CLI tool |
+| `inference/api.py` & `prediction-ui/` | Phase 7 | FastAPI Backend & React Web Dashboard |
 | `processed_data/stroke_final_model.h5` | — | Saved final trained Keras model |
 | `processed_data/scaler.pkl` | — | Fitted StandardScaler for inference |
 
