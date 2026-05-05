@@ -307,6 +307,30 @@ Risk Category       :  🔴 High Risk
 ---
 
 ## 🧠 Why MLP? — Architecture Justification
+```mermaid
+flowchart LR
+    A["Input Layer\n(16 Features)"] --> B
+
+    subgraph H1["Hidden Layer 1"]
+        B["64 Neurons\nReLU Activation"]
+    end
+
+    B --> C
+
+    subgraph H2["Hidden Layer 2"]
+        C["32 Neurons\nReLU Activation"]
+    end
+
+    C --> D
+
+    subgraph H3["Hidden Layer 3"]
+        D["16 Neurons\nReLU Activation"]
+    end
+
+    D --> E
+
+    E["Output Layer\n1 Neuron (Sigmoid)\nProbability [0–1]"] --> F["Risk Mapping\nLow / Moderate / High"]
+```
 
 ### Why a Neural Network Over Classical Models?
 
