@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+numpy
+tensorflow
+joblib
+shap
+axios
+# For the frontend, use npm install

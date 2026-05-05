@@ -1,0 +1,16 @@
+age
+hypertension
+heart_disease
+avg_glucose_level
+bmi
+gender_Male
+gender_Other
+work_type_Never_worked
+work_type_Private
+work_type_Self-employed
+work_type_children
+smoking_status_formerly smoked
+smoking_status_never smoked
+smoking_status_smokes
+Residence_type_Urban
+ever_married_Yes
